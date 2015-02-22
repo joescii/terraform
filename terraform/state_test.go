@@ -111,6 +111,42 @@ func TestStateModuleOrphans_nilConfig(t *testing.T) {
 	}
 }
 
+func TestStateEmpty(t *testing.T) {
+	cases := []struct {
+		In     *State
+		Result bool
+	}{
+		{
+			nil,
+			true,
+		},
+		{
+			&State{},
+			true,
+		},
+		{
+			&State{
+				Remote: &RemoteState{Type: "foo"},
+			},
+			true,
+		},
+		{
+			&State{
+				Modules: []*ModuleState{
+					&ModuleState{},
+				},
+			},
+			false,
+		},
+	}
+
+	for i, tc := range cases {
+		if tc.In.Empty() != tc.Result {
+			t.Fatalf("bad %d %#v:\n\n%#v", i, tc.Result, tc.In)
+		}
+	}
+}
+
 func TestStateIsRemote(t *testing.T) {
 	cases := []struct {
 		In     *State
