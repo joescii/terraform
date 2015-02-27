@@ -111,16 +111,16 @@ func resourceDigitalOceanDropletCreate(d *schema.ResourceData, meta interface{})
 		Size:   d.Get("size").(string),
 	}
 
-	if attr, ok := d.GetOk("backups"); ok {
-		opts.Backups = attr.(string)
+	if attr, ok := d.GetOk("backups"); ok && attr.(bool) {
+		opts.Backups = true 
 	}
 
 	if attr, ok := d.GetOk("ipv6"); ok && attr.(bool) {
-		opts.IPV6 = "true"
+		opts.IPV6 = true
 	}
 
 	if attr, ok := d.GetOk("private_networking"); ok && attr.(bool) {
-		opts.PrivateNetworking = "true"
+		opts.PrivateNetworking = true
 	}
 
 	if attr, ok := d.GetOk("user_data"); ok {
